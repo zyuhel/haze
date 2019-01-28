@@ -80,27 +80,23 @@ Vue.material.registerTheme({
 Vue.config.productionTip = false
 
 // Detect Incognito (Private Browsing) mode
-var browsingModeDetector = new BrowsingModeDetector() // eslint-disable-line no-undef
-browsingModeDetector.do((incognitoMode, ctx) => {
-  if (incognitoMode) {
-    // Incognito, Private mode detected
-    window.ep = new Vue({
-      version: packageJSON.version,
-      template: '<App/>',
-      components: { IncognitoModeAlert },
-      i18n,
-      render: h => h(IncognitoModeAlert)
-    }).$mount('#app')
-    console.warn(ctx.getBrowsingMode())
-  } else {
-    window.ep = new Vue({
-      version: packageJSON.version,
-      router,
-      store,
-      template: '<App/>',
-      components: { App },
-      i18n,
-      render: h => h(App)
-    }).$mount('#app')
-  }
+getAdmDataBase().then(() => {
+  window.ep = new Vue({
+    version: packageJSON.version,
+    router,
+    store,
+    template: '<App/>',
+    components: { App },
+    i18n,
+    render: h => h(App)
+  }).$mount('#app')
+}).catch(() => {
+  window.ep = new Vue({
+    version: packageJSON.version,
+    template: '<App/>',
+    components: { IncognitoModeAlert },
+    i18n,
+    render: h => h(IncognitoModeAlert)
+  }).$mount('#app')
+  console.warn('IndexedDB is not supported')
 })
