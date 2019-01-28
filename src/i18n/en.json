@@ -71,6 +71,10 @@
     "your_balance_tooltip_ETH": "It is your ADAMANT ETH balance.",
     "your_balance_tooltip_BZ": "It is your ADAMANT BZ balance."
   },
+  "incognito": {
+    "content": "Sorry, incognito mode is not supported",
+    "title": "Browser in incognito mode"
+  },
   "login": {
     "copy_button_tooltip": "Click to copy the passphrase to clipboard. Save it in a password keeper application. To enter your new Wallet, paste it the passphrase field.",
     "create_address_label": "Or create a new anonymous address:",

@@ -15,6 +15,9 @@ import packageJSON from '../package.json'
 import storeConfig from './store'
 import { getAdmDataBase, getPassPhrase } from './lib/indexedDb'
 
+import 'js-detect-incognito-private-browsing/dist/BrowsingModeDetector.js'
+import IncognitoModeAlert from '@/components/IncognitoModeAlert.vue'
+
 Vue.use(Vuex)
 Vue.use(VueMaterial)
 Vue.use(VueClipboards)
@@ -76,12 +79,28 @@ Vue.material.registerTheme({
 
 Vue.config.productionTip = false
 
-window.ep = new Vue({
-  version: packageJSON.version,
-  router,
-  store,
-  template: '<App/>',
-  components: { App },
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+// Detect Incognito (Private Browsing) mode
+var browsingModeDetector = new BrowsingModeDetector() // eslint-disable-line no-undef
+browsingModeDetector.do((incognitoMode, ctx) => {
+  if (incognitoMode) {
+    // Incognito, Private mode detected
+    window.ep = new Vue({
+      version: packageJSON.version,
+      template: '<App/>',
+      components: { IncognitoModeAlert },
+      i18n,
+      render: h => h(IncognitoModeAlert)
+    }).$mount('#app')
+    console.warn(ctx.getBrowsingMode())
+  } else {
+    window.ep = new Vue({
+      version: packageJSON.version,
+      router,
+      store,
+      template: '<App/>',
+      components: { App },
+      i18n,
+      render: h => h(App)
+    }).$mount('#app')
+  }
+})

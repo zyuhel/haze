@@ -3289,6 +3289,11 @@ es6-promise@^4.0.2:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.4.tgz#dc4221c2b16518760bd8c39a52d8f356fc00ed29"
 
+es6-shim@^0.35.3:
+  version "0.35.4"
+  resolved "https://registry.yarnpkg.com/es6-shim/-/es6-shim-0.35.4.tgz#8d5a4109756383d3f0323421089c423acf8378f1"
+  integrity sha512-oJidbXjN/VWXZJs41E9JEqWzcFbjt43JupimIoVX82Thzt5qy1CiYezdhRmWkj3KOuwJ106IG/ZZrcFC6fgIUQ==
+
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
@@ -5462,6 +5467,13 @@ js-beautify@^1.6.12, js-beautify@^1.6.14:
     editorconfig "^0.15.0"
     mkdirp "~0.5.0"
     nopt "~4.0.1"
+
+js-detect-incognito-private-browsing@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/js-detect-incognito-private-browsing/-/js-detect-incognito-private-browsing-1.0.5.tgz#be4256a1beee74a367245bfad2013ac4714a8fec"
+  integrity sha1-vkJWob7udKNnJFv60gE6xHFKj+w=
+  dependencies:
+    es6-shim "^0.35.3"
 
 js-levenshtein@^1.1.3:
   version "1.1.4"
