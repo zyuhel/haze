@@ -93,7 +93,7 @@ getAdmDataBase().then(() => {
 }).catch(() => {
   window.ep = new Vue({
     version: packageJSON.version,
-    template: '<App/>',
+    template: '<IncognitoModeAlert/>',
     components: { IncognitoModeAlert },
     i18n,
     render: h => h(IncognitoModeAlert)

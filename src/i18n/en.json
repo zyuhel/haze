@@ -72,7 +72,7 @@
     "your_balance_tooltip_BZ": "It is your ADAMANT BZ balance."
   },
   "incognito": {
-    "content": "Sorry, incognito mode is not supported",
+    "content": "Sorry, incognito mode is not supported in this browser",
     "title": "Browser in incognito mode"
   },
   "login": {

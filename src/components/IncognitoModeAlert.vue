@@ -1,15 +1,16 @@
 <template>
   <div id="app">
-    <md-dialog-alert :md-active.sync="value" :md-content="$t('incognito.content')"
-      :md-title="$t('incognito.title')" />
+    <md-dialog-alert :md-content="$t('incognito.content')" :md-title="$t('incognito.title')"
+      ref="dialog" />
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    value: true
-  }),
-  name: 'app'
+  mounted () {
+    window.setTimeout(() => {
+      this.$refs.dialog.open()
+    })
+  }
 }
 </script>
