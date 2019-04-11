@@ -14,5 +14,6 @@ const getNetwork = fmt => ({
 
 export default Object.freeze({
   [Cryptos.DOGE]: getNetwork(coininfo.dogecoin.main.toBitcoinJS()),
-  [Cryptos.DASH]: getNetwork(coininfo.dash.main.toBitcoinJS())
+  [Cryptos.DASH]: getNetwork(coininfo.dash.main.toBitcoinJS()),
+  [Cryptos.BTC]: getNetwork(coininfo.bitcoin.main.toBitcoinJS())
 })
