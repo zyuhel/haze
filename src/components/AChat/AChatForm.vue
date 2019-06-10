@@ -51,7 +51,7 @@ export default {
             if (this.sendOnEnter) {
               // add LF and calculate height when CTRL+ENTER or ALT+ENTER or CMD+ENTER (Mac & Windows)
               // no need to add LF for shiftKey, it will be added automatically
-              if (e.ctrlKey || e.altKey || e.metaKey) {
+              if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) {
                 this.addLineFeed()
                 this.calculateInputHeight()
                 return
