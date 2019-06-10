@@ -27,12 +27,12 @@ fi
 for DEPLOY_SUBDOMAIN_UNFORMATTED in "${DEPLOY_SUBDOMAIN_UNFORMATTED_LIST[@]}"
 do
   echo $DEPLOY_SUBDOMAIN_UNFORMATTED
-  # replaces "/" or "." with "-"
+  # replaces "/", "+" or "." with "-"
   # sed -r is only supported in linux, ref http://stackoverflow.com/a/2871217/689223
   # Domain names follow the RFC1123 spec [a-Z] [0-9] [-]
   # The length is limited to 253 characters
   # https://en.wikipedia.org/wiki/Domain_Name_System#Domain_name_syntax
-  SUBDOMAIN=`echo "$DEPLOY_SUBDOMAIN_UNFORMATTED" | sed -r 's/[\/|\.]+/\-/g'`
+  SUBDOMAIN=`echo "$DEPLOY_SUBDOMAIN_UNFORMATTED" | sed -r 's/[\/|\.|\+]+/\-/g'`
 done
 touch ./dist/CORS
 echo '*' > ./dist/CORS
