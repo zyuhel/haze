@@ -98,7 +98,9 @@ export function createChat () {
   return {
     messages: [],
     numOfNewMessages: 0,
-    scrollPosition: undefined
+    scrollPosition: undefined,
+    offset: 0,
+    page: 0
   }
 }
 

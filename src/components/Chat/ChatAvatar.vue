@@ -79,6 +79,13 @@ export default {
 
             return el.toDataURL()
           })
+          .catch(() => {
+            // use `userId` to generate identicon if the user
+            // does not have a public key yet
+            identicon.avatar(el, this.userId, this.canvasSize)
+
+            return el.toDataURL()
+          })
       } else {
         identicon.avatar(el, this.userId, this.canvasSize)
       }

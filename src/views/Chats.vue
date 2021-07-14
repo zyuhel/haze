@@ -36,6 +36,15 @@
             </transition-group>
           </v-list>
 
+          <div class="text-xs-center">
+            <v-progress-circular
+              v-show="loading"
+              indeterminate
+              color="primary"
+              size="24"
+            />
+          </div>
+
         </v-flex>
 
         <ChatSpinner :value="!isFulfilled" />
@@ -57,7 +66,16 @@ import ChatStartDialog from '@/components/ChatStartDialog'
 import ChatSpinner from '@/components/ChatSpinner'
 import scrollPosition from '@/mixins/scrollPosition'
 
+const scrollOffset = 64
+
 export default {
+  mounted () {
+    this.showChatStartDialog = this.showNewContact
+    this.attachScrollListener()
+  },
+  beforeDestroy () {
+    this.destroyScrollListener()
+  },
   computed: {
     className: () => 'chats-view',
     isFulfilled () {
@@ -74,7 +92,9 @@ export default {
     }
   },
   data: () => ({
-    showChatStartDialog: false
+    showChatStartDialog: false,
+    loading: false,
+    noMoreChats: false
   }),
   methods: {
     openChat (partnerId, messageText) {
@@ -90,12 +110,42 @@ export default {
     },
     onError (message) {
       this.$store.dispatch('snackbar/show', { message })
+    },
+
+    attachScrollListener () {
+      window.addEventListener('scroll', this.onScroll)
+    },
+
+    destroyScrollListener () {
+      window.removeEventListener('scroll', this.onScroll)
+    },
+
+    onScroll () {
+      const scrollHeight = document.documentElement.scrollHeight
+      const scrollTop = document.documentElement.scrollTop
+      const clientHeight = document.documentElement.clientHeight
+
+      // if scrolled to bottom
+      if (scrollHeight - scrollTop - scrollOffset < clientHeight) {
+        this.loadChatsPaged()
+      }
+    },
+
+    loadChatsPaged () {
+      if (this.loading) return
+      if (this.noMoreChats) return
+
+      this.loading = true
+      this.$store.dispatch('chat/loadChatsPaged')
+        .catch(() => {
+          this.noMoreChats = true
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   },
   mixins: [scrollPosition],
-  mounted () {
-    this.showChatStartDialog = this.showNewContact
-  },
   props: {
     partnerId: { type: String },
     showNewContact: { default: false, type: Boolean }

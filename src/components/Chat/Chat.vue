@@ -186,6 +186,8 @@ export default {
     Visibility.unbind(this.visibilityId)
   },
   mounted () {
+    if (this.isFulfilled && this.chatPage <= 0) this.fetchChatMessages()
+
     this.scrollBehavior()
     this.$nextTick(() => {
       this.isScrolledToBottom = this.$refs.chat.isScrolledToBottom()
@@ -214,6 +216,10 @@ export default {
 
         if (!Visibility.hidden()) this.markAsRead()
       })
+    },
+    // watch `isFulfilled` when opening chat directly from address bar
+    isFulfilled (value) {
+      if (value && this.chatPage <= 0) this.fetchChatMessages()
     }
   },
   computed: {
@@ -243,6 +249,15 @@ export default {
     sendMessageOnEnter () {
       return this.$store.state.options.sendMessageOnEnter
     },
+    isFulfilled () {
+      return this.$store.state.chat.isFulfilled
+    },
+    lastMessage () {
+      return this.$store.getters['chat/lastMessage'](this.partnerId)
+    },
+    chatPage () {
+      return this.$store.getters['chat/chatPage'](this.partnerId)
+    },
     scrollPosition () {
       return this.$store.getters['chat/scrollPosition'](this.partnerId)
     },
@@ -253,6 +268,7 @@ export default {
   data: () => ({
     chatFormLabel: '',
     loading: false,
+    noMoreMessages: false,
     isScrolledToBottom: true,
     visibilityId: null,
     showFreeTokensDialog: false
@@ -289,7 +305,7 @@ export default {
       this.$store.commit('chat/markAsRead', this.partnerId)
     },
     onScrollTop () {
-      //
+      this.fetchChatMessages()
     },
     onScrollBottom () {
       this.markAsRead()
@@ -341,6 +357,21 @@ export default {
       }
 
       return transaction.message
+    },
+    fetchChatMessages () {
+      if (this.noMoreMessages) return
+      if (this.loading) return
+
+      this.loading = true
+
+      return this.$store.dispatch('chat/getChatRoomMessages', { contactId: this.partnerId })
+        .catch(() => {
+          this.noMoreMessages = true
+        })
+        .finally(() => {
+          this.loading = false
+          this.$refs.chat.maintainScrollPosition()
+        })
     },
     scrollBehavior () {
       this.$nextTick(() => {
